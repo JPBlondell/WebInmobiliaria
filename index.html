@@ -86,7 +86,33 @@ label{font-size:.8rem;font-weight:500}
     <label>Correo<input id="lEmail" type="email" required class="inp mt-1" autocomplete="username"></label>
     <label>Contraseña<input id="lPass" type="password" required class="inp mt-1" autocomplete="current-password"></label>
     <p id="lErr" class="hidden text-sm text-red-600"></p>
+    <p id="lOk" class="hidden text-sm text-green-700"></p>
     <button class="btn bp">Ingresar</button>
+    <button type="button" id="goForgot" class="mu text-sm underline">¿Olvidaste tu contraseña?</button>
+  </form>
+</section>
+
+<!-- OLVIDÉ MI CONTRASEÑA -->
+<section id="vForgot" class="hidden">
+  <form id="forgotForm" class="card mx-auto mt-12 grid max-w-sm gap-3 p-6">
+    <h2 class="text-xl font-bold">Recuperar contraseña</h2>
+    <p class="mu text-sm">Escribe tu correo y te enviaremos un enlace para crear una nueva contraseña.</p>
+    <label>Correo<input id="fEmail" type="email" required class="inp mt-1" autocomplete="email"></label>
+    <p id="fgErr" class="hidden text-sm text-red-600"></p>
+    <p id="fgOk" class="hidden text-sm text-green-700"></p>
+    <button id="fgBtn" class="btn bp">Enviar enlace</button>
+    <button type="button" id="backLogin" class="mu text-sm underline">← Volver a iniciar sesión</button>
+  </form>
+</section>
+
+<!-- NUEVA CONTRASEÑA (al llegar desde el correo) -->
+<section id="vReset" class="hidden">
+  <form id="resetForm" class="card mx-auto mt-12 grid max-w-sm gap-3 p-6">
+    <h2 class="text-xl font-bold">Crear nueva contraseña</h2>
+    <label>Nueva contraseña<input id="rPass" type="password" required minlength="6" class="inp mt-1" autocomplete="new-password"></label>
+    <label>Repetir contraseña<input id="rPass2" type="password" required minlength="6" class="inp mt-1" autocomplete="new-password"></label>
+    <p id="rErr" class="hidden text-sm text-red-600"></p>
+    <button id="rBtn" class="btn bp">Guardar contraseña</button>
   </form>
 </section>
 
@@ -137,6 +163,7 @@ label{font-size:.8rem;font-weight:500}
 </div>
 
 <script>
+const RECOVERY=/type=recovery/.test(location.hash);
 const C=window.APP_CONFIG||{}, WA=C.WHATSAPP||'';
 const $=id=>document.getElementById(id), PER=6;
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -270,13 +297,42 @@ async function saveForm(){
 
 // Autenticación real con Supabase Auth
 const navLabel=v=>{$('navAdmin').textContent=v==='public'?(user?'Panel':'Iniciar sesión'):'← Portal'};
-function setView(v){view=v;['Public','Login','Admin'].forEach(k=>$('v'+k).classList.toggle('hidden',k.toLowerCase()!==v));
-  navLabel(v);$('logout').classList.toggle('hidden',!user);if(v==='admin')renderAdmin();scrollTo(0,0)}
+function setView(v){view=v;['Public','Login','Forgot','Reset','Admin'].forEach(k=>$('v'+k).classList.toggle('hidden',k.toLowerCase()!==v));
+  if(v!=='login')$('lOk').classList.add('hidden');navLabel(v);$('logout').classList.toggle('hidden',!user);if(v==='admin')renderAdmin();scrollTo(0,0)}
 async function initAuth(){
   if(!db)return;
-  const {data}=await db.auth.getSession();user=data.session?.user||null;$('logout').classList.toggle('hidden',!user);navLabel(view);
-  db.auth.onAuthStateChange((_e,ss)=>{user=ss?.user||null;$('logout').classList.toggle('hidden',!user);navLabel(view);if(!user&&view==='admin')setView('public')});
+  const {data}=await db.auth.getSession();user=data.session?.user||null;$('logout').classList.toggle('hidden',!user);navLabel(view);if(RECOVERY&&user)setView('reset');
+  db.auth.onAuthStateChange((_e,ss)=>{user=ss?.user||null;if(_e==='PASSWORD_RECOVERY')setView('reset');$('logout').classList.toggle('hidden',!user);navLabel(view);if(!user&&view==='admin')setView('public')});
 }
+// Recuperación de contraseña
+const showMsg=(id,m)=>{$(id).textContent=m;$(id).classList.remove('hidden')};
+const hideMsg=(...ids)=>ids.forEach(i=>$(i).classList.add('hidden'));
+$('goForgot').onclick=()=>{$('fEmail').value=$('lEmail').value;hideMsg('fgErr','fgOk');setView('forgot')};
+$('backLogin').onclick=()=>setView('login');
+$('forgotForm').onsubmit=async e=>{
+  e.preventDefault();hideMsg('fgErr','fgOk');
+  if(!db)return showMsg('fgErr','Falta configurar Supabase (ver README).');
+  const btn=$('fgBtn');btn.disabled=true;btn.textContent='Enviando…';
+  const {error}=await db.auth.resetPasswordForEmail($('fEmail').value.trim(),{redirectTo:location.origin+location.pathname});
+  btn.disabled=false;btn.textContent='Enviar enlace';
+  if(error)return showMsg('fgErr',/rate|seconds|limit/i.test(error.message||'')?'Espera un momento antes de volver a solicitar el enlace.':'No se pudo enviar el correo. Inténtalo de nuevo.');
+  showMsg('fgOk','Si el correo está registrado, recibirás un enlace para restablecer tu contraseña. Revisa también la carpeta de spam.');
+};
+$('resetForm').onsubmit=async e=>{
+  e.preventDefault();hideMsg('rErr');
+  const p1=$('rPass').value,p2=$('rPass2').value;
+  if(p1.length<6)return showMsg('rErr','La contraseña debe tener al menos 6 caracteres.');
+  if(p1!==p2)return showMsg('rErr','Las contraseñas no coinciden.');
+  const btn=$('rBtn');btn.disabled=true;btn.textContent='Guardando…';
+  const {error}=await db.auth.updateUser({password:p1});
+  btn.disabled=false;btn.textContent='Guardar contraseña';
+  if(error)return showMsg('rErr','No se pudo cambiar la contraseña: '+(error.message||'error desconocido'));
+  $('resetForm').reset();history.replaceState(null,'',location.pathname+location.search);
+  await db.auth.signOut();user=null;
+  showMsg('lOk','Contraseña actualizada. Ya puedes iniciar sesión.');setView('login');
+};
+if(/error_code=/.test(location.hash)){showMsg('fgErr','El enlace expiró o ya fue usado. Solicita uno nuevo.');setView('forgot')}
+
 $('navAdmin').onclick=()=>setView(view==='public'?(user?'admin':'login'):'public');
 $('logo').onclick=e=>{e.preventDefault();setView('public')};
 $('logout').onclick=async()=>{if(db)await db.auth.signOut();user=null;setView('public')};
