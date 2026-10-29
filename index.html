@@ -24,29 +24,29 @@ h1,h2{font-family:'Playfair Display',Georgia,serif;font-weight:500}
 .bp{background:var(--navy);color:#fff;border-color:var(--navy)}.bp:hover{background:var(--navy-d)}
 .bg{background:var(--gold);color:var(--navy-d);border-color:var(--gold)}.bg:hover{background:#D8922B}
 label{font-size:.8rem;font-weight:500}
-
+ 
 /* Logo */
 .logo{display:flex;align-items:center}
 .logo-img{height:56px;width:auto;display:block}
-
+ 
 /* Banda superior con degradado gris claro (como en la publicación) */
 .band{background:linear-gradient(180deg,#fff 0%,#E4E5E9 100%)}
 .hero{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:1rem 2rem;margin:1.5rem 0 1.25rem;padding:1.75rem 1.25rem 1.5rem 0}
 .hero-tag{background:var(--navy);color:#fff;padding:.9rem 1.75rem .9rem 1.25rem;max-width:100%}
 .hero-tag h1{margin:0;font-size:clamp(1.5rem,4.2vw,2.5rem);line-height:1.12;letter-spacing:.01em}
-
+ 
 /* Texto caligráfico con subrayado dorado */
 .script{font-family:Montserrat,sans-serif;font-weight:600;color:var(--navy);line-height:1.3;display:inline-block;padding-bottom:.3rem;background:linear-gradient(90deg,transparent 0,var(--u,var(--gold)) 14%) left bottom/100% 3px no-repeat}
 .hero .script{font-size:clamp(1rem,2vw,1.2rem);padding-left:.25rem}
 .st{font-family:'Playfair Display',Georgia,serif;font-weight:500;font-size:1.05rem;white-space:nowrap;flex:none}
-
+ 
 /* Tarjeta de propiedad */
 .pc-top{background:linear-gradient(180deg,#fff,#E4E5E9);padding:.7rem 0}
 .tag{display:inline-block;background:var(--navy);color:#fff;font-family:'Playfair Display',Georgia,serif;font-size:1rem;padding:.35rem 1rem .35rem .85rem;line-height:1.2}
 .pc-info{background:linear-gradient(180deg,#fff,#E9EAEE);padding:.95rem 1rem 1rem}
 .pc-title{font-family:Montserrat,sans-serif;font-weight:800;color:var(--navy-d);line-height:1.2;font-size:1.2rem;margin:0}
 .price{font-weight:700;color:var(--navy);font-size:1.3rem}
-
+ 
 /* Barra de características azul */
 .sb{display:flex;flex-wrap:wrap;justify-content:space-between;gap:.35rem .75rem;background:var(--navy);color:#fff;padding:.65rem .85rem;font-size:.72rem}
 .sb span{display:inline-flex;align-items:center;gap:.35rem;white-space:nowrap}
@@ -61,7 +61,7 @@ label{font-size:.8rem;font-weight:500}
     <div class="flex gap-2"><button id="logout" class="btn hidden">Salir</button><button id="navAdmin" class="btn bp">Iniciar sesión</button></div>
   </div>
 </header>
-
+ 
 <main class="mx-auto max-w-6xl px-4 pb-16">
 <!-- PORTAL -->
 <section id="vPublic">
@@ -78,7 +78,7 @@ label{font-size:.8rem;font-weight:500}
   <div id="grid" class="mt-3 grid gap-5 sm:grid-cols-2 lg:grid-cols-3"></div>
   <nav id="pager" class="mt-8 flex flex-wrap justify-center gap-2"></nav>
 </section>
-
+ 
 <!-- LOGIN -->
 <section id="vLogin" class="hidden">
   <form id="loginForm" class="card mx-auto mt-12 grid max-w-sm gap-3 p-6">
@@ -91,7 +91,7 @@ label{font-size:.8rem;font-weight:500}
     <button type="button" id="goForgot" class="mu text-sm underline">¿Olvidaste tu contraseña?</button>
   </form>
 </section>
-
+ 
 <!-- OLVIDÉ MI CONTRASEÑA -->
 <section id="vForgot" class="hidden">
   <form id="forgotForm" class="card mx-auto mt-12 grid max-w-sm gap-3 p-6">
@@ -104,7 +104,7 @@ label{font-size:.8rem;font-weight:500}
     <button type="button" id="backLogin" class="mu text-sm underline">← Volver a iniciar sesión</button>
   </form>
 </section>
-
+ 
 <!-- NUEVA CONTRASEÑA (al llegar desde el correo) -->
 <section id="vReset" class="hidden">
   <form id="resetForm" class="card mx-auto mt-12 grid max-w-sm gap-3 p-6">
@@ -115,7 +115,7 @@ label{font-size:.8rem;font-weight:500}
     <button id="rBtn" class="btn bp">Guardar contraseña</button>
   </form>
 </section>
-
+ 
 <!-- ADMIN -->
 <section id="vAdmin" class="hidden">
   <div class="flex flex-wrap items-center justify-between gap-3 py-8">
@@ -130,9 +130,18 @@ label{font-size:.8rem;font-weight:500}
   </div>
 </section>
 </main>
-
+ 
+<div id="chatWrap">
+ <div id="chatPanel" class="card fixed z-30 hidden flex-col" style="right:1rem;bottom:calc(5rem + env(safe-area-inset-bottom,0px));width:22rem;max-width:calc(100vw - 2rem);height:30rem;max-height:calc(100vh - 8rem)">
+  <div class="flex items-center justify-between px-3 py-2 text-white" style="background:var(--navy)"><b class="text-sm">Asistente inmobiliario</b><button id="chatClose" type="button" aria-label="Cerrar chat">✕</button></div>
+  <div id="chatLog" class="flex-1 space-y-2 overflow-y-auto p-3 text-sm"></div>
+  <form id="chatForm" class="flex gap-2 border-t p-2" style="border-color:var(--bd)"><input id="chatIn" class="inp" placeholder="Ej: casa de 3 hab. hasta 150 mil" autocomplete="off"><button class="btn bp">Enviar</button></form>
+ </div>
+ <button id="chatBtn" type="button" class="btn bp fixed z-30 shadow-lg" style="right:1rem;bottom:calc(1rem + env(safe-area-inset-bottom,0px));padding:.75rem 1.1rem;border-radius:999px">💬 Asistente</button>
+</div>
+ 
 <div id="mDetail" class="fixed inset-0 z-40 hidden items-end justify-center bg-black/60 sm:items-center sm:p-4"><div id="detailBody" class="max-h-[92vh] w-full max-w-3xl overflow-y-auto rounded-none" style="background:var(--card)"></div></div>
-
+ 
 <div id="mForm" class="fixed inset-0 z-40 hidden items-end justify-center bg-black/60 sm:items-center sm:p-4">
   <div class="max-h-[92vh] w-full max-w-2xl overflow-y-auto rounded-none p-5" style="background:var(--card)">
     <div class="mb-4 flex items-center justify-between"><h3 id="fTitle" class="text-lg font-bold"></h3><button class="closeM btn !px-3" aria-label="Cerrar">✕</button></div>
@@ -161,7 +170,7 @@ label{font-size:.8rem;font-weight:500}
     </div>
   </div>
 </div>
-
+ 
 <script>
 const RECOVERY=/type=recovery/.test(location.hash);
 const C=window.APP_CONFIG||{}, WA=C.WHATSAPP||'';
@@ -171,10 +180,10 @@ const uid=()=>crypto.randomUUID?crypto.randomUUID():'id-'+Date.now()+Math.random
 const fmt=(n,c)=>{try{return new Intl.NumberFormat('es',{style:'currency',currency:c==='local'?'ARS':c,maximumFractionDigits:0}).format(n)}catch(e){return n}};
 const ST={disponible:['Venta','#E8A23A'],reservada:['Alquiler','#2C4A8E']};
 const badge=s=>`<span class="script st" style="--u:${ST[s]?ST[s][1]:'#E8A23A'}">${ST[s]?ST[s][0]:'Venta'}</span>`;
-
+ 
 function ph(h,l){return 'data:image/svg+xml;utf8,'+encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 520"><defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="hsl(${h},55%,62%)"/><stop offset="1" stop-color="hsl(${(h+40)%360},60%,38%)"/></linearGradient></defs><rect width="800" height="520" fill="url(#g)"/><g fill="none" stroke="#fff" stroke-opacity=".85" stroke-width="14" stroke-linecap="round" stroke-linejoin="round"><path d="M270 270l130-110 130 110"/><path d="M300 250v130h200V250"/><path d="M370 380V310h60v70"/></g><text x="400" y="450" text-anchor="middle" font-family="sans-serif" font-size="30" fill="#fff">${l}</text></svg>`)}
 const FALL=ph(220,'Sin imagen');
-
+ 
 // Capa de datos: Supabase (PostgreSQL + Auth + Storage + Realtime)
 const BUCKET='property-images';
 const ready=!!(window.supabase&&C.SUPABASE_URL&&C.SUPABASE_ANON_KEY&&!/TU-PROYECTO|TU_ANON/.test(C.SUPABASE_URL+C.SUPABASE_ANON_KEY));
@@ -188,10 +197,10 @@ async function loadAll(){
     if(error)loadErr=error.message;else{props=data.map(fromRow);loadErr=''}}
   loading=false;renderGrid();if(view==='admin')renderAdmin();
 }
-
+ 
 const img=(s,c)=>`<img src="${esc(s||FALL)}" alt="" loading="lazy" class="${c}" onerror="this.onerror=null;this.src='${FALL}'">`;
 const specs=p=>`<div class="sb mt-3"><span title="Habitaciones"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 19v-8a2 2 0 012-2h14a2 2 0 012 2v8M3 15.5h18M7 9V7a1 1 0 011-1h3a1 1 0 011 1v2"/></svg><b>${p.specs.bedrooms}</b> Hab.</span><span title="Baños"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12h16v2.5a4.5 4.5 0 01-4.5 4.5h-7A4.5 4.5 0 014 14.5V12zM6 12V6.5a2 2 0 013.6-1.2M7.5 19l-1 2M16.5 19l1 2"/></svg><b>${p.specs.bathrooms}</b> Baños</span><span title="Puestos de estacionamiento"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.5 16l1.6-5a2 2 0 011.9-1.4h8a2 2 0 011.9 1.4l1.6 5M3.5 16h17v3h-2.5v-1.5H6V19H3.5z"/><path d="M7.5 13.2h.01M16.5 13.2h.01"/></svg><b>${p.specs.parking_spaces}</b> Estac.</span><span title="Superficie"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg><b>${p.specs.area_sqm}</b> m²</span></div>`;
-
+ 
 function filtered(){
   const t=$('fText').value.trim().toLowerCase(),mn=+$('fMin').value||0,mx=+$('fMax').value||Infinity,b=+$('fBeds').value,ba=+$('fBaths').value,st=$('fStatus').value;
   return props.filter(p=>(!t||(p.title+' '+p.location.address+' '+p.location.city+' '+p.location.state).toLowerCase().includes(t))&&p.price>=mn&&p.price<=mx&&p.specs.bedrooms>=b&&p.specs.bathrooms>=ba&&(!st||p.status===st));
@@ -207,7 +216,7 @@ function renderGrid(){
    <div class="p-3"><button class="btn bg w-full" data-detail="${p.id}">Ver Detalle</button></div></article>`).join(''):`<p class="mu col-span-full py-16 text-center">${emptyMsg()}</p>`;
   $('pager').innerHTML=pages>1?`<button class="btn" data-pg="${page-1}" ${page===1?'disabled':''}>←</button>`+Array.from({length:pages},(_,i)=>`<button class="btn ${i+1===page?'bp':''}" data-pg="${i+1}">${i+1}</button>`).join('')+`<button class="btn" data-pg="${page+1}" ${page===pages?'disabled':''}>→</button>`:'';
 }
-
+ 
 let ci=0,cimgs=[];
 function showSlide(i){ci=(i+cimgs.length)%cimgs.length;$('slide').src=cimgs[ci];document.querySelectorAll('[data-dot]').forEach(d=>d.style.opacity=+d.dataset.dot===ci?1:.45)}
 function openDetail(id){
@@ -230,7 +239,7 @@ function openDetail(id){
   let x0=null;const c=$('car');c.ontouchstart=e=>x0=e.touches[0].clientX;c.ontouchend=e=>{if(x0!==null&&cimgs.length>1){const d=e.changedTouches[0].clientX-x0;if(Math.abs(d)>40)showSlide(ci+(d<0?1:-1))}x0=null};
   openM('mDetail');
 }
-
+ 
 function renderAdmin(){
   $('rows').innerHTML=props.map(p=>`<tr class="border-b" style="border-color:var(--bd)"><td class="p-3"><div class="flex items-center gap-3"><div class="h-12 w-16 shrink-0 overflow-hidden rounded bg-slate-200">${img(p.featured_image,'h-full w-full object-cover')}</div><div><p class="font-semibold">${esc(p.title)}</p><p class="mu text-xs">${esc(p.location.city)} · ${p.specs.bedrooms} hab · ${p.specs.area_sqm} m²</p></div></div></td>
    <td class="p-3 font-medium">${fmt(p.price,p.currency)}</td>
@@ -256,10 +265,10 @@ async function delProp(id){
   if(paths.length)await db.storage.from(BUCKET).remove(paths);
   await loadAll();
 }
-
+ 
 function openM(id){$(id).classList.remove('hidden');$(id).classList.add('flex');document.body.style.overflow='hidden'}
 function closeM(){['mDetail','mForm'].forEach(i=>{$(i).classList.add('hidden');$(i).classList.remove('flex')});document.body.style.overflow=''}
-
+ 
 let fImgs=[],fFeat='';
 function renderPrev(){
   if(!fImgs.includes(fFeat))fFeat=fImgs[0]||'';
@@ -269,7 +278,7 @@ function renderPrev(){
 }
 function compress(file){return new Promise(res=>{const r=new FileReader();r.onload=()=>{const im=new Image();im.onload=()=>{const k=Math.min(1,900/Math.max(im.width,im.height)),c=document.createElement('canvas');c.width=im.width*k;c.height=im.height*k;c.getContext('2d').drawImage(im,0,0,c.width,c.height);res(c.toDataURL('image/jpeg',.72))};im.onerror=()=>res(null);im.src=r.result};r.onerror=()=>res(null);r.readAsDataURL(file)})}
 async function addFiles(fl){for(const f of fl){if(!f.type.startsWith('image/'))continue;const d=await compress(f);if(d)fImgs.push(d)}renderPrev()}
-
+ 
 function openForm(id){
   const p=id?props.find(x=>x.id===id):null;
   $('fTitle').textContent=p?'Editar propiedad':'Nueva propiedad';$('pId').value=p?p.id:'';
@@ -294,16 +303,91 @@ async function saveForm(){
   }catch(e){fail('No se pudo guardar: '+errMsg(e))}
   btn.disabled=false;btn.textContent='Guardar';
 }
-
+ 
 // Autenticación real con Supabase Auth
 const navLabel=v=>{$('navAdmin').textContent=v==='public'?(user?'Panel':'Iniciar sesión'):'← Portal'};
 function setView(v){view=v;['Public','Login','Forgot','Reset','Admin'].forEach(k=>$('v'+k).classList.toggle('hidden',k.toLowerCase()!==v));
-  if(v!=='login')$('lOk').classList.add('hidden');navLabel(v);$('logout').classList.toggle('hidden',!user);if(v==='admin')renderAdmin();scrollTo(0,0)}
+  $('chatWrap').classList.toggle('hidden',v!=='public');if(v!=='login')$('lOk').classList.add('hidden');navLabel(v);$('logout').classList.toggle('hidden',!user);if(v==='admin')renderAdmin();scrollTo(0,0)}
 async function initAuth(){
   if(!db)return;
   const {data}=await db.auth.getSession();user=data.session?.user||null;$('logout').classList.toggle('hidden',!user);navLabel(view);if(RECOVERY&&user)setView('reset');
   db.auth.onAuthStateChange((_e,ss)=>{user=ss?.user||null;if(_e==='PASSWORD_RECOVERY')setView('reset');$('logout').classList.toggle('hidden',!user);navLabel(view);if(!user&&view==='admin')setView('public')});
 }
+// ===== Asistente de búsqueda (reglas en español, sin servidor) =====
+const nz=s=>String(s||'').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'');
+const NW={un:1,una:1,uno:1,dos:2,tres:3,cuatro:4,cinco:5,seis:6},NUM='(\\d+|un|una|uno|dos|tres|cuatro|cinco|seis)';
+const toN=x=>NW[x]??+x;
+const amt=(n,u)=>{n=n.replace(/[.,]+$/,'');u=u||'';const v=/^\d{1,3}([.,]\d{3})+$/.test(n)?+n.replace(/[.,]/g,''):parseFloat(n.replace(',','.'));return /^mill|^mm$/.test(u)?v*1e6:/^(k|mil)$/.test(u)?v*1e3:v};
+const AM='\\$?\\s*(\\d[\\d.,]*)\\s*(k|mil|millones|millon|mm)?(?![a-z])';
+const pv=(m,i)=>{if(!m)return;const v=amt(m[i],m[i+1]);return v>=1000?v:undefined};
+const FEATS=['piscina','jardin','balcon','terraza','gimnasio','seguridad','amoblad','vista','patio','ascensor','mascota','parrilla','lavander'];
+let crit={feats:[]};
+function parseQ(t){
+  const s=nz(t),o={feats:[]},M=r=>s.match(r);let m;
+  if(m=M(new RegExp(NUM+'\\s*(?:habitaciones|habitacion|hab|cuartos?|dormitorios?|recamaras?)\\b')))o.beds=toN(m[1]);
+  if(m=M(new RegExp(NUM+'\\s*banos?\\b')))o.baths=toN(m[1]);
+  if(m=M(new RegExp(NUM+'\\s*(?:estacionamientos?|puestos?|garajes?|garages?|cocheras?|parking)')))o.park=toN(m[1]);
+  else if(/garaje|garage|cochera|estacionamiento|parking/.test(s))o.park=1;
+  if(m=M(/(\d+)\s*(?:m2|m²|mts2?|metros)/))o.area=+m[1];
+  if(m=M(new RegExp('entre\\s*'+AM+'\\s*y\\s*'+AM))){const a=amt(m[1],m[2]||m[4]),b=amt(m[3],m[4]);if(a>=1000&&b>=1000){o.min=Math.min(a,b);o.max=Math.max(a,b)}}
+  else{
+    o.max=pv(M(new RegExp('(?:menos de|hasta|maximo|max\\.?|por debajo de|no mas de|presupuesto(?: maximo)?(?: de)?)\\s*'+AM)),1);
+    o.min=pv(M(new RegExp('(?:mas de|desde|minimo|min\\.?|por encima de)\\s*'+AM)),1);
+    if(!o.max)o.max=pv(M(new RegExp(AM+'\\s*(?:usd|dolares|euros?|eur|\\$)')),1);
+  }
+  Object.keys(o).forEach(k=>o[k]===undefined&&delete o[k]);
+  if(/alquil|renta/.test(s))o.status='reservada';else if(/compr|venta|vend/.test(s))o.status='disponible';
+  const locs=[...new Set(props.flatMap(p=>[p.location.city,p.location.state]).filter(Boolean))].filter(l=>s.includes(nz(l)));
+  if(locs.length)o.locs=locs;
+  if(/departamento|apartamento|apto/.test(s))o.type=['departamento','apartamento','apto'];
+  else if(/\bcasa/.test(s))o.type=['casa'];else if(/loft/.test(s))o.type=['loft'];else if(/penthouse/.test(s))o.type=['penthouse'];
+  o.feats=FEATS.filter(w=>s.includes(w));
+  return o;
+}
+function crits(c){
+  const a=[],add=(l,f)=>a.push({l,f}),tx=p=>nz(p.title+' '+p.description);
+  if(c.type)add(c.type[0],p=>c.type.some(w=>tx(p).includes(w)));
+  if(c.status)add(ST[c.status][0].toLowerCase(),p=>p.status===c.status);
+  if(c.locs?.length)add(c.locs.join('/'),p=>c.locs.some(l=>nz([p.location.city,p.location.state,p.location.address].join(' ')).includes(nz(l))));
+  if(c.beds)add(c.beds+'+ hab.',p=>p.specs.bedrooms>=c.beds);
+  if(c.baths)add(c.baths+'+ baños',p=>p.specs.bathrooms>=c.baths);
+  if(c.park)add(c.park+'+ estac.',p=>p.specs.parking_spaces>=c.park);
+  if(c.area)add(c.area+'+ m²',p=>p.specs.area_sqm>=c.area);
+  if(c.min)add('desde '+fmt(c.min,'USD'),p=>p.price>=c.min);
+  if(c.max)add('hasta '+fmt(c.max,'USD'),p=>p.price<=c.max);
+  c.feats.forEach(w=>add(w,p=>tx(p).includes(w)));
+  return a;
+}
+function say(html,me){const l=$('chatLog'),d=document.createElement('div');d.className=me?'ml-auto max-w-[85%] p-2 text-white':'max-w-[92%] p-2';d.style.background=me?'var(--navy)':'#EBEFF8';d.innerHTML=html;l.appendChild(d);l.scrollTop=l.scrollHeight}
+function reply(t){
+  if(/nueva busqueda|reiniciar|empezar de nuevo|borrar|limpiar/.test(nz(t))){crit={feats:[]};return say('Listo, empecemos de nuevo. ¿Qué estás buscando?')}
+  if(!props.length)return say('Aún no hay propiedades cargadas. Inténtalo en unos segundos.');
+  const q=parseQ(t),f=q.feats;delete q.feats;Object.assign(crit,q);crit.feats=[...new Set([...crit.feats,...f])];
+  const L=crits(crit);
+  if(!L.length)return say('No pude identificar criterios. Prueba con algo como: <i>«departamento de 2 habitaciones, 1 baño, con estacionamiento, hasta 120 mil»</i>.');
+  const r=props.map(p=>({p,miss:L.filter(x=>!x.f(p))})).filter(x=>1-x.miss.length/L.length>=.5).sort((a,b)=>a.miss.length-b.miss.length||a.p.price-b.p.price);
+  const ex=r.filter(x=>!x.miss.length).length,top=r.slice(0,3);
+  let h='<p class="mu text-xs">Busco: '+esc(L.map(x=>x.l).join(' · '))+'</p>';
+  if(!top.length)h+='<p class="mt-1">No encontré propiedades parecidas. Prueba a flexibilizar algún criterio (precio, zona o habitaciones).</p>';
+  else h+='<p class="mt-1">'+(ex?`Encontré <b>${ex}</b> ${ex===1?'opción que cumple':'opciones que cumplen'} todo${ex>3?' (te muestro 3)':''}:`:'No hay coincidencias exactas; estas son las más cercanas:')+'</p>'
+   +top.map(({p,miss})=>`<div class="mt-2 border bg-white p-2 text-xs" style="border-color:var(--bd)"><b>${esc(p.title)}</b> · ${esc(p.location.city)}<br>${fmt(p.price,p.currency)} · ${p.specs.bedrooms} hab · ${p.specs.bathrooms} baños · ${p.specs.area_sqm} m²${miss.length?`<br><span class="mu">No cumple: ${esc(miss.map(x=>x.l).join(', '))}</span>`:''}<br><button class="btn bg mt-1 !px-2 !py-1" data-detail="${p.id}">Ver detalle</button></div>`).join('')
+   +'<button class="btn mt-2 !py-1" data-apply="1">Filtrar el listado con esto</button><p class="mu mt-1 text-xs">Puedes afinar ("con 2 baños", "en alquiler") o escribir «nueva búsqueda».</p>';
+  say(h);
+}
+function applyChat(){
+  const c=crit;$('fText').value=c.locs?.[0]||'';$('fMin').value=c.min||'';$('fMax').value=c.max||'';
+  $('fBeds').value=Math.min(c.beds||0,4);$('fBaths').value=Math.min(c.baths||0,3);$('fStatus').value=c.status||'';
+  page=1;renderGrid();chatOpen(false);$('count').scrollIntoView({behavior:'smooth'});
+}
+function chatOpen(o){
+  const p=$('chatPanel');p.classList.toggle('hidden',!o);p.classList.toggle('flex',o);
+  if(o){if(!$('chatLog').children.length)say('¡Hola! Soy el asistente de GG Conexiones. Cuéntame qué buscas y te muestro las mejores opciones. Ej: <i>«casa con 3 habitaciones, 2 baños, garaje, hasta 150 mil»</i>');$('chatIn').focus()}
+}
+$('chatBtn').onclick=()=>chatOpen($('chatPanel').classList.contains('hidden'));
+$('chatClose').onclick=()=>chatOpen(false);
+$('chatLog').onclick=e=>{if(e.target.closest('[data-apply]'))applyChat()};
+$('chatForm').onsubmit=e=>{e.preventDefault();const t=$('chatIn').value.trim();if(!t)return;$('chatIn').value='';say(esc(t),true);setTimeout(()=>reply(t),250)};
+ 
 // Recuperación de contraseña
 const showMsg=(id,m)=>{$(id).textContent=m;$(id).classList.remove('hidden')};
 const hideMsg=(...ids)=>ids.forEach(i=>$(i).classList.add('hidden'));
@@ -332,7 +416,7 @@ $('resetForm').onsubmit=async e=>{
   showMsg('lOk','Contraseña actualizada. Ya puedes iniciar sesión.');setView('login');
 };
 if(/error_code=/.test(location.hash)){showMsg('fgErr','El enlace expiró o ya fue usado. Solicita uno nuevo.');setView('forgot')}
-
+ 
 $('navAdmin').onclick=()=>setView(view==='public'?(user?'admin':'login'):'public');
 $('logo').onclick=e=>{e.preventDefault();setView('public')};
 $('logout').onclick=async()=>{if(db)await db.auth.signOut();user=null;setView('public')};
@@ -343,7 +427,7 @@ $('loginForm').onsubmit=async e=>{
   if(error)return fail('Correo o contraseña incorrectos.');
   user=data.user;$('loginForm').reset();setView('admin');
 };
-
+ 
 ['fText','fMin','fMax','fBeds','fBaths','fStatus'].forEach(i=>$(i).addEventListener('input',()=>{page=1;renderGrid()}));
 $('addBtn').onclick=()=>openForm();$('saveBtn').onclick=saveForm;
 const drop=$('drop');drop.onclick=()=>$('files').click();$('files').onchange=e=>{addFiles(e.target.files);e.target.value=''};
